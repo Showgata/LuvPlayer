@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="grid_image_height">48dp</dimen>
+    <dimen name="file_grid_spacing_large">30dp</dimen>
+    <dimen name="file_grid_spacing_small">26dp</dimen>
+</resources>
