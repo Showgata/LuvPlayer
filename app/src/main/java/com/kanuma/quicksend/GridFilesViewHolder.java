@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class GridFilesViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView fileImage;
-        public TextView fileTitle;
-        public TextView fileSize;
+        ImageView fileImage;
+        ImageView fileSelected;
+        TextView fileTitle;
+        TextView fileSize;
+
 
 public GridFilesViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -19,5 +21,7 @@ public GridFilesViewHolder(@NonNull View itemView) {
         fileImage = itemView.findViewById(R.id.file_image);
         fileTitle = itemView.findViewById(R.id.file_title);
         fileSize = itemView.findViewById(R.id.file_size);
+        fileSelected=itemView.findViewById(R.id.file_selected);
+
         }
 }

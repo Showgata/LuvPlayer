@@ -1,12 +1,17 @@
-package com.kanuma.quicksend.Models;
+package com.kanuma.quicksend.Helpers;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+
+import com.kanuma.quicksend.Models.FileDetails;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,6 +75,35 @@ public class FileHelperMethods {
         }
         Log.d(TAG, "getSpecificTypeOfFile: " + fileList.size());
         return fileList;
+    }
+
+
+
+
+    public static FileDetails getApkInfo(String path, Context context){
+        PackageManager pm = context.getPackageManager();
+        PackageInfo packageInfo = pm.getPackageArchiveInfo(path,PackageManager.GET_ACTIVITIES);
+        FileDetails details = new FileDetails();
+
+        if(packageInfo !=null){
+            ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+            applicationInfo.sourceDir = path;
+            applicationInfo.publicSourceDir=path;
+
+            details.setName(pm.getApplicationLabel(applicationInfo).toString());
+            details.setSize(getSizeOfTheFile(applicationInfo));
+            details.setIcon(pm.getApplicationIcon(applicationInfo));
+        }
+
+        return details;
+
+    }
+
+    private static String getSizeOfTheFile(ApplicationInfo applicationInfo){
+        File file = new File(applicationInfo.publicSourceDir);
+        long size = file.length();
+        Log.d(TAG, "getSizeOfTheFile: "+size);
+        return size+"";
     }
 
 }

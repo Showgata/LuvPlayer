@@ -1,12 +1,16 @@
 package com.kanuma.quicksend;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.kanuma.quicksend.Models.FileDetails;
+import com.kanuma.quicksend.Helpers.FileHelperMethods;
 
 import java.io.File;
 import java.util.List;
@@ -18,10 +22,15 @@ public class GridFilesAdapter extends RecyclerView.Adapter<GridFilesViewHolder> 
 
     private List<File> fileDetailsList;
     private Context context;
+    public QueueTrackerInterface qti;
 
-    public GridFilesAdapter(Context context, List<File> fileDetailsList) {
+    private static final String TAG = "GridFilesAdapter";
+
+
+    public GridFilesAdapter(Context context, List<File> fileDetailsList,QueueTrackerInterface qti) {
         this.fileDetailsList = fileDetailsList;
         this.context =context;
+        this.qti = qti;
     }
 
     @NonNull
@@ -37,9 +46,10 @@ public class GridFilesAdapter extends RecyclerView.Adapter<GridFilesViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GridFilesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final GridFilesViewHolder holder, int position) {
 
-        FileDetails details = FileDetails.getApkInfo(fileDetailsList.get(position).getAbsolutePath(),context);
+        final File mFile=fileDetailsList.get(position);
+        final FileDetails details = FileHelperMethods.getApkInfo(mFile.getAbsolutePath(),context);
 
         if(details.getName()!=null) {
             holder.fileTitle.setText(details.getName());
@@ -50,15 +60,57 @@ public class GridFilesAdapter extends RecyclerView.Adapter<GridFilesViewHolder> 
         if(icon != null){
             holder.fileImage.setImageDrawable(icon);
         }else{
-            holder.fileImage.setImageResource(R.drawable.ic_insert_drive_file_black_24dp);
+            holder.fileImage.setImageResource(R.drawable.ic_music_note_black_24dp);
         }
 
-        holder.fileSize.setText("12mb");
+        if(details.getSize()==null) {
+            holder.fileSize.setText("-");
+        }else{
+            holder.fileSize.setText(details.getSize());
+        }
+
+        //For single taps
+        holder.fileImage.getRootView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                qti.navigateAndPlay(mFile);
+
+            }
+        });
+
+
+
+
+        //For Long Clicks
+        holder.fileImage.getRootView().setOnLongClickListener((new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                details.setSelected(!details.isSelected());
+                holder.fileSelected.setImageResource(details.isSelected() ?
+                        R.drawable.ic_check_circle_black_24dp : Color.TRANSPARENT);
+
+
+                if(details.isSelected()) {
+                    Log.d(TAG, "onClick: Yes");
+                    qti.insertInQueue(mFile);
+                }else{
+                    qti.deleteFromQueue(mFile);
+                }
+
+                return true;
+            }
+        }));
 
     }
 
     @Override
     public int getItemCount() {
         return fileDetailsList.size();
+    }
+
+    public interface QueueTrackerInterface{
+        void insertInQueue(File f);
+        void deleteFromQueue(File f);
+        void navigateAndPlay(File f);
     }
 }

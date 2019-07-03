@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="56dp"
-        android:background="@color/filesGridBackgroundColor"
         app:elevation="8dp"
         >
 
@@ -21,6 +20,22 @@
             />
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Share"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:id="@+id/share_files"
+            />
+
+    </LinearLayout>
 
 
 

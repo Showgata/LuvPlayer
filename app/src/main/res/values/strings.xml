@@ -1,5 +1,10 @@
 <resources>
-    <string name="app_name">QuickSend</string>
+    <string name="app_name">LuvMusic</string>
     <string name="grid_title">Title</string>
     <string name="grid_description">Description</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="local_service_connected">Local Service Connected</string>
+    <string name="local_service_disconnected">Service Disconnected</string>
 </resources>
