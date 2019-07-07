@@ -215,7 +215,7 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
                 songName.setText(musicFile.getName());
                 songArtist.setText("No : " +files.indexOf(musicFile));
 
-                createAudioProgressbarUpdater();
+                //createAudioProgressbarUpdater();
                 musicServiceBinder.setAudioProgressUpdateHandler(audioProgressUpdateHandler);
 
 
@@ -242,7 +242,7 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
         return new String[]{artist,title};
     }
 
-    void doBindService(){
+    private void doBindService(){
 
         Intent i =new Intent(getActivity(),MusicService.class);
         getActivity().bindService(i,mConnection, Context.BIND_AUTO_CREATE);
@@ -250,7 +250,7 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
 
     }
 
-    void doUnBindService(){
+    private void doUnBindService(){
         if (isServiceBound) {
             // Detach our existing connection.
             getActivity().unbindService(mConnection);
@@ -268,9 +268,10 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
 
     // Create audio player progressbar updater.
     // This updater is used to update progressbar to reflect audio play process.
-    private void createAudioProgressbarUpdater()
-    {
+    //private void createAudioProgressbarUpdater()
+    //{
         /* Initialize audio progress handler. */
+        /*
         if(audioProgressUpdateHandler==null) {
             audioProgressUpdateHandler = new Handler() {
                 @Override
@@ -290,6 +291,8 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
             };
         }
     }
+
+    */
 
 
     @Override
