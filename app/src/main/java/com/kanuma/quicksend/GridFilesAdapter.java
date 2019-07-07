@@ -73,7 +73,7 @@ public class GridFilesAdapter extends RecyclerView.Adapter<GridFilesViewHolder> 
         holder.fileImage.getRootView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                qti.navigateAndPlay(mFile);
+                qti.navigateAndPlay(mFile,fileDetailsList);
 
             }
         });
@@ -111,6 +111,6 @@ public class GridFilesAdapter extends RecyclerView.Adapter<GridFilesViewHolder> 
     public interface QueueTrackerInterface{
         void insertInQueue(File f);
         void deleteFromQueue(File f);
-        void navigateAndPlay(File f);
+        void navigateAndPlay(File f,List<File> fileDetailsList);
     }
 }

@@ -4,23 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.MusicFragment">
+    tools:context=".Fragments.MusicFragment"
+    android:background="@color/colorPrimary">
 
-    <ImageView
+
+    <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/musicBackground"
-        android:src="@color/colorPrimary"/>
+        app:lottie_rawRes="@raw/blue_waves"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:id="@+id/seek"
+        android:scaleType="centerCrop"
+        />
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_gravity="center">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="top|center"
+            app:lottie_rawRes="@raw/music"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            />
+
+
+        <include layout="@layout/snippet_audio_buttons" />
 
 
 
 
-
-
-
-
-
-
+    </FrameLayout>
 
 
 </FrameLayout>

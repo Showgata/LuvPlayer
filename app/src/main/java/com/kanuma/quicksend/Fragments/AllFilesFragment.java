@@ -155,9 +155,9 @@ public class AllFilesFragment extends Fragment implements GridFilesAdapter.Queue
     }
 
     @Override
-    public void navigateAndPlay(File f) {
+    public void navigateAndPlay(File f,List<File> fileDetailsList) {
 
-        Fragment nextFragment = MusicFragment.playMusic(f);
+        Fragment nextFragment = MusicFragment.playMusic(f,fileDetailsList);
         ((MainActivity)getActivity()).navigateTo(nextFragment,true);
 
 
