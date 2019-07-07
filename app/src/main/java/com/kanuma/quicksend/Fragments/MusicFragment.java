@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.media.AudioManager;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,9 +45,9 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
     private MusicServiceBinder musicServiceBinder;
     private Uri path;
     private File musicFile;
-    private Integer index;
     private Handler audioProgressUpdateHandler = null;
     private ProgressBar progressBar;
+
 
     private boolean isServiceBound =false;
 
@@ -55,6 +56,8 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
     private ImageView prevButton;
     private TextView songName;
     private TextView songArtist;
+    private LottieAnimationView musicAnim;
+    private LottieAnimationView waveAnim;
     private Boolean isPlaying =true;
 
 
@@ -109,6 +112,10 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
         stopButton =v.findViewById(R.id.stop);
         progressBar=v.findViewById(R.id.progressBar);
         progressBar.setVisibility(ProgressBar.VISIBLE);
+        musicAnim =v.findViewById(R.id.music);
+        musicAnim.playAnimation();
+        waveAnim=v.findViewById(R.id.seek);
+        waveAnim.playAnimation();
         progressBar.setProgress(0);
         prevButton=v.findViewById(R.id.prev);
         nextButton=v.findViewById(R.id.next);
@@ -133,10 +140,14 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
                 stopButton.setImageResource(R.drawable.ic_play_circle_outline_black_24dp);
                 isPlaying =false;
                 musicServiceBinder.pauseAudio();
+                musicAnim.pauseAnimation();
+                waveAnim.pauseAnimation();
             }else{
                 musicServiceBinder.resumeAudio();
                 stopButton.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
                 isPlaying = true;
+                musicAnim.playAnimation();
+                waveAnim.playAnimation();
             }
 
 
@@ -153,7 +164,11 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
             musicServiceBinder.stopAudio();
             stopButton.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
             musicServiceBinder.setAudioFileUrl(path);
+            songName.setText(musicFile.getName());
+            songArtist.setText("No : " +files.indexOf(musicFile)+1+"");
             musicServiceBinder.startAudio();
+            musicAnim.playAnimation();
+            waveAnim.playAnimation();
         }
     };
 
@@ -172,9 +187,13 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
             path = Uri.parse(files.get(i).getAbsolutePath());
             progressBar.setProgress(0);
             musicServiceBinder.stopAudio();
+            songName.setText(musicFile.getName());
+            songArtist.setText("No : " +files.indexOf(musicFile)+"");
             stopButton.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
             musicServiceBinder.setAudioFileUrl(path);
             musicServiceBinder.startAudio();
+            musicAnim.playAnimation();
+            waveAnim.playAnimation();
         }
     };
 
@@ -193,7 +212,9 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
                 Toast.makeText(getActivity(),""+path,Toast.LENGTH_SHORT).show();
                 musicServiceBinder.setAudioFileUrl(path);
                 musicServiceBinder.startAudio();
-                // Initialize audio progress bar updater Handler object.
+                songName.setText(musicFile.getName());
+                songArtist.setText("No : " +files.indexOf(musicFile));
+
                 createAudioProgressbarUpdater();
                 musicServiceBinder.setAudioProgressUpdateHandler(audioProgressUpdateHandler);
 
@@ -212,6 +233,14 @@ public class MusicFragment extends Fragment implements MediaPlayer.OnCompletionL
         }
     };
 
+    public String[] getMusicMetaData(String path){
+        MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
+        metaRetriever.setDataSource(path);
+        String artist =  metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+
+        String title = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+        return new String[]{artist,title};
+    }
 
     void doBindService(){
 

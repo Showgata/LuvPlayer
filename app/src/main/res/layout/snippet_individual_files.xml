@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:text="@string/grid_title"
-            android:textColor="@color/secondaryTextColor"
+            android:textColor="@color/secondaryColor"
             android:textAlignment="center"
 
             android:maxLines="2"/>
@@ -54,7 +54,7 @@
             android:text="@string/grid_description"
             android:textAlignment="center"
             android:textSize="12sp"
-            android:textColor="@color/secondaryTextColor"/>
+            android:textColor="@color/secondaryColor"/>
 
     </LinearLayout>
 

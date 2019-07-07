@@ -27,8 +27,7 @@ public class AllFilesFragment extends Fragment implements GridFilesAdapter.Queue
 
     private  List<File> fileList;
     private Queue<File> selectedItems;
-    //private BottomSheetDialog bottomSheetView;
-    private Button shareButton;
+
 
     //In BottomSheetDialog
     /* private Button bsClearButton;
@@ -59,8 +58,7 @@ public class AllFilesFragment extends Fragment implements GridFilesAdapter.Queue
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.file_grid_spacing_small);
         //recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
 
-        shareButton=view.findViewById(R.id.share_files);
-        shareButton.setOnClickListener(shareButtonFun);
+
         /* bottomSheetView = new BottomSheetDialog(getActivity());
         initBottomSheetView(bottomSheetView,inflater,container);*/
 
@@ -129,28 +127,11 @@ public class AllFilesFragment extends Fragment implements GridFilesAdapter.Queue
     public void insertInQueue(File f) {
         selectedItems.add(f);
 
-        if(selectedItems.size()==1) {
-            shareButton.setClickable(true);
-        }
-
-        String label = selectedItems.size() + " is selected to share";
-        shareButton.setText(label);
-
     }
 
     @Override
     public void deleteFromQueue(File f) {
         selectedItems.remove(f);
-
-        if(selectedItems.size()<=0){
-            shareButton.setClickable(false);
-            String label = "Select Something";
-            shareButton.setText(label);
-        }else {
-            shareButton.setClickable(true);
-            String label = selectedItems.size() + " is selected to share";
-            shareButton.setText(label);
-        }
 
     }
 

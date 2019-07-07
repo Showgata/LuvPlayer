@@ -12,6 +12,8 @@
         android:text="Throwaway"
         android:id="@+id/songName"
         android:textSize="32sp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:gravity="center"
         android:textColor="@color/primaryTextColor"
         android:paddingBottom="8dp"/>
@@ -20,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Clario"
+        android:maxLines="1"
         android:gravity="center"
         android:id="@+id/songArtist"
         android:textSize="24sp"
